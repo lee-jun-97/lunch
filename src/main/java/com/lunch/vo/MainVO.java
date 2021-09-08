@@ -1,10 +1,11 @@
 package com.lunch.vo;
 
-import org.springframework.stereotype.Component;
+import lombok.Data;
 
-@Component
+@Data
 public class MainVO {
 	
+	public int no;
 	public String menu;
 	public String store;
 
