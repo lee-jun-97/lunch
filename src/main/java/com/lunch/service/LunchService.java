@@ -11,41 +11,43 @@ import com.lunch.vo.MainVO;
 @Service
 public class LunchService {
 
-	List<String> menuList = new ArrayList<String>();
-
-	public LunchService() {
-
-		menuList.add("한식");
-		menuList.add("중식");
-		menuList.add("양식");
-
-	}
-
-	public List<MainVO> selectLunch() {
+	public List<MainVO> selectLunch(String lunch) {
 
 		List<MainVO> lunchList = new ArrayList<>();
 
 		for (int i = 0; i < 3; i++) {
 			MainVO mainvo = new MainVO();
 
-			Collections.shuffle(menuList);
-
-			mainvo.no = i + 1;
-			mainvo.menu = menuList.get(0);
-
-			switch (mainvo.menu) {
-			case "한식":
+			mainvo.no = i+1;
+			switch (lunch) {
+			case "korean":
+				mainvo.menu = "한식";
 				mainvo.store = selectKoreanFoodStore();
 				break;
-			case "중식":
+			case "china":
+				mainvo.menu = "중식";
 				mainvo.store = selectChinaFoodStore();
 				break;
-			case "양식":
+			case "europe":
+				mainvo.menu = "양식";
 				mainvo.store = selectEuropeFoodStore();
 				break;
 			}
-
-			lunchList.add(mainvo);
+			
+			// 가게 중복 방지 로직
+			if( i > 0 ) {
+				if(mainvo.store == lunchList.get(i-1).store) {
+					i--;
+				} else {
+					if(i > 1 && mainvo.store == lunchList.get(i-2).store) {
+						i--;
+					} else {
+						lunchList.add(mainvo);						
+					}
+				}
+			} else {
+				lunchList.add(mainvo);								
+			}
 		}
 		return lunchList;
 	}
@@ -54,20 +56,19 @@ public class LunchService {
 
 		List<String> storeList = new ArrayList<String>();
 
-		storeList.add("국전");
-		storeList.add("콩나물국밥");
+		storeList.add("국제전자상가");
+		storeList.add("전주콩나물국밥");
 		storeList.add("순대국밥");
-		storeList.add("명동할머니");
-		storeList.add("마늘보쌈");
+		storeList.add("명동 할머니 국수");
+		storeList.add("마늘 보쌈");
 		storeList.add("광시");
 		storeList.add("소나기");
-		storeList.add("물갈비집");
-		storeList.add("새마을식당");
-		storeList.add("순대국밥");
+		storeList.add("백년 물갈비");
+		storeList.add("새마을 식당");
 		storeList.add("찜통");
 		storeList.add("설렁탕");
 		storeList.add("육대장");
-		storeList.add("곰탕");
+		storeList.add("나주 곰탕");
 		storeList.add("부대찌개");
 		storeList.add("순두부");
 
@@ -80,9 +81,9 @@ public class LunchService {
 
 		List<String> storeList = new ArrayList<String>();
 
-		storeList.add("팔당반점");
+		storeList.add("팔당 반점");
 		storeList.add("매화");
-		storeList.add("강남짬뽕");
+		storeList.add("강남 짬뽕");
 
 		Collections.shuffle(storeList);
 
@@ -93,8 +94,9 @@ public class LunchService {
 
 		List<String> storeList = new ArrayList<String>();
 
-		storeList.add("국전 파스타");
-		storeList.add("지하 돈가스 집");
+		storeList.add("국제전자상가 파스타");
+		storeList.add("미토요");
+		storeList.add("양계장집");
 
 		Collections.shuffle(storeList);
 

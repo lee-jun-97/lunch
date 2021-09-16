@@ -3,15 +3,28 @@
 	<head>
 		<title>Lunch Menu</title>
 		<meta charset="UTF-8">
+		<link rel="stylesheet" data-th-href="@{/css/style.css}" />
 	</head>
 	<body>
-	<div class="card col-lg-5">
-		<div class="card-body">
-			<h2>점심 메뉴 선정을 원하시면 버튼을 눌러주세요 !</h2>
-			<form data-th-method="get" data-th-action="@{/menu}">
-				<button>메뉴 선정</button>
-			</form>
+		<div class="m-mt50" align="center">
+			<img data-th-src="@{/img/KIMIDS.png}" />
 		</div>
-	</div>
+		<div class="card-body" align="center">
+			<div>
+				<h1>안녕하세요</h1>
+				<h2>점심 선정을 위해 메뉴 선택 후 버튼을 눌러주세요 !</h2>
+				<h2>3 가지의 추천 메뉴가 나옵니다.</h2>
+				<form data-th-method="get" data-th-action="@{/menu}">
+					<p>오늘의 메뉴 :
+						<select name="lunch">
+							<option value="korean" data-th-selected="${korean}">한식</option>
+							<option value="china" data-th-selected="${china}">중식</option>
+							<option value="europe" data-th-selected="${europe}">양식</option>
+						</select>
+						<button>메뉴 선정</button>
+					</p>
+				</form>
+			</div>
+		</div>
 	</body>
 </html>
