@@ -14,6 +14,7 @@
 	<table class="m-mt30" border="1">
 		<thead>
 			<tr align="center">
+				<th>우선순위</th>
 				<th>순번</th>
 				<th>메뉴</th>
 				<th>가게</th>
@@ -21,12 +22,13 @@
 		</thead>
 		<tbody align="center">
 			<tr data-th-each="vo : ${menu}" data-th-if="${menu.size() > 0}">
+				<td width="100px" data-th-text="${vo.div}"></td>
 				<td width="50px" data-th-text="${vo.no}"></td>
 				<td width="100px" data-th-text="${vo.menu}"></td>
 				<td width="200px" data-th-text="${vo.store}"></td>
 			</tr>
 			<tr>
-				<th colspan="3" height="30px">
+				<th colspan="4" height="30px">
 					<a data-th-href="@{/menu}"><button>새로고침</button></a>
 				</th>
 			</tr>

@@ -23,6 +23,12 @@ public class LunchService {
 			String lunch = selectMenu();
 
 			mainvo.no = i+1;
+			
+			if(mainvo.no == 1) {
+				mainvo.div = "메인";
+			} else {
+				mainvo.div = "후보";
+			}
 			switch (lunch) {
 			case "korean":
 				mainvo.menu = "한식";
