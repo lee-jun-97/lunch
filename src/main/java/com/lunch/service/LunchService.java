@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 
 import com.lunch.vo.MainVO;
 
-@Service
-public class LunchService {
+import lombok.NoArgsConstructor;
 
-	public List<MainVO> selectLunch(String lunch) {
+@Service
+@NoArgsConstructor
+public class LunchService {
+	
+	public List<MainVO> selectLunch() {
 
 		List<MainVO> lunchList = new ArrayList<>();
 
 		for (int i = 0; i < 3; i++) {
 			MainVO mainvo = new MainVO();
+			String lunch = selectMenu();
 
 			mainvo.no = i+1;
 			switch (lunch) {
@@ -51,10 +55,25 @@ public class LunchService {
 		}
 		return lunchList;
 	}
+	
+	public String selectMenu() {
+		
+		List<String> menuList = new ArrayList<>();
+		
+		menuList.add("korean");
+		menuList.add("china");
+		menuList.add("europe");
+		
+		Collections.shuffle(menuList);
+		
+		String menu = menuList.get(0);
+		
+		return menu;
+	}
 
 	public String selectKoreanFoodStore() {
 
-		List<String> storeList = new ArrayList<String>();
+		List<String> storeList = new ArrayList<>();
 
 		storeList.add("국제전자상가");
 		storeList.add("전주콩나물국밥");

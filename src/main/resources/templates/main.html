@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Lunch Menu</title>
 		<meta charset="UTF-8">
@@ -14,16 +14,7 @@
 				<h1>안녕하세요</h1>
 				<h2>점심 선정을 위해 메뉴 선택 후 버튼을 눌러주세요 !</h2>
 				<h2>3 가지의 추천 메뉴가 나옵니다.</h2>
-				<form data-th-method="get" data-th-action="@{/menu}">
-					<p>오늘의 메뉴 :
-						<select name="lunch">
-							<option value="korean" data-th-selected="${korean}">한식</option>
-							<option value="china" data-th-selected="${china}">중식</option>
-							<option value="europe" data-th-selected="${europe}">양식</option>
-						</select>
-						<button>메뉴 선정</button>
-					</p>
-				</form>
+				<a data-th-href="@{/menu}"><button>메뉴 선정</button></a>
 			</div>
 		</div>
 	</body>
