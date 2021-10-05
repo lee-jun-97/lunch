@@ -20,8 +20,8 @@ public class MainController {
 	LunchService lunchService;
 
 	@GetMapping("/")
-	public String main() {
-		return "/main";
+	public String home() {
+		return "/home";
 	}
 
 	@GetMapping("/menu")
