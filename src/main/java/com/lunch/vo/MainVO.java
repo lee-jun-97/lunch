@@ -19,8 +19,8 @@ public class MainVO {
 	public String div;
 	@Column(name="num") @Id
 	public int no;
+	public String nation;
 	public String menu;
-	public String store;
 	public String date;
 
 }
