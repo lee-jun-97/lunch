@@ -17,10 +17,11 @@ public class MainVO {
 	
 	@Column(name="dep")
 	public String div;
-	@Column(name="num") @Id
+	@Column(name="num")
 	public int no;
 	public String nation;
 	public String menu;
+	@Id
 	public String date;
 
 }
