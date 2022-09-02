@@ -1,27 +1,25 @@
-package com.lunch.vo;
+package com.lunch.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
 @Setter @Getter
 @Entity
 @Table(name="lunch_history")
-public class MainVO {
+public class History {
 	
-	@Column(name="dep")
-	public String div;
-	@Column(name="num")
-	public int no;
-	public String nation;
+	public String dep;
+	public int num;
 	public String menu;
 	@Id
 	public String date;
+	
+	public String toString() {
+		return "History : [ " + dep + ", " + num + ", " + menu + ", " + date + " ]";
+	}
 
 }
