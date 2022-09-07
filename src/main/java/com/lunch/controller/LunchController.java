@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,19 +19,21 @@ import com.lunch.service.LunchService;
 @Controller
 public class LunchController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(LunchController.class);
+//	private static final Logger logger = LoggerFactory.getLogger(LunchController.class);
 	
-	LunchService lunchService;
+	private LunchService lunchService;
+	private Menu menu;
 	
-	public LunchController(LunchService lunchService) {
+	public LunchController(LunchService lunchService, Menu menu) {
 		this.lunchService = lunchService;
+		this.menu = menu;
 	}
 	
 	@GetMapping("/menu")
 	public String getMenu(Model model) {
 		
 		List<History> lunchList = new ArrayList<> ();
-		
+
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -57,9 +57,10 @@ public class LunchController {
 	}
 	
 	@PostMapping("/menu/add/save")
-	public String saveMenu(@RequestParam String menu) {
-		lunchService.saveMenu(new Menu(menu));
-		return "/";
+	public String saveMenu(@RequestParam String input) {
+		menu.setMenu(input);
+		lunchService.saveMenu(this.menu);
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/history")

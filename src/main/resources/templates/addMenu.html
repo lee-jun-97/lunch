@@ -11,9 +11,9 @@
 	<table class="m-mt30" border="1">
 		<tbody align="center">
 			<tr>
-			<div>
-				<form th:action="@{/menu/add/save}" th:method="POST" align="center">
-					<input type="text" id="menu" name="menu" placeholder="메뉴 이름">
+			<div align="center">
+				<form th:action="@{/menu/add/save}" th:method="POST">
+					<input type="text" id="input" name="input" placeholder="메뉴 이름">
 					<th colspan="4" height="30px">
 					<a data-th-href="@{/menu/add/save}"><button>저장</button></a>
 					<a data-th-href="@{/}"><button>홈으로</button></a>
