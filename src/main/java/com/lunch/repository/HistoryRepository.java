@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.lunch.domain.History;
 
 @Repository
-public interface HistoryRepository extends JpaRepository<History, Long>{
+public interface HistoryRepository extends JpaRepository<History, Integer>{
 	
 }

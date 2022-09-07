@@ -1,6 +1,8 @@
 package com.lunch.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,14 +14,14 @@ import lombok.Setter;
 @Table(name="lunch_history")
 public class History {
 	
-	public String dep;
-	public int num;
-	public String menu;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int seq;
+	public String menu;
 	public String date;
 	
 	public String toString() {
-		return "History : [ " + dep + ", " + num + ", " + menu + ", " + date + " ]";
+		return "History : [ "+ date + " : " + menu + " ]";
 	}
 
 }
