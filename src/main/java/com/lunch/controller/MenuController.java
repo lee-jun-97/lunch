@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.lunch.domain.Alert;
 import com.lunch.domain.Menu;
 import com.lunch.service.HistoryService;
 import com.lunch.service.LunchService;
@@ -58,13 +59,14 @@ public class MenuController {
 	}
 	
 	@PostMapping("/menu/add/save")
-	public String saveMenu(@RequestParam String input) {
+	public String saveMenu(@RequestParam String input, Model model) {
 		menu.setMenu(input);
 		if(lunchService.validation(input)) {
 			lunchService.saveMenu(this.menu);
-			return "redirect:/";
-		} else {
 			return "redirect:/menu/add";
+		} else {
+			model.addAttribute("params", new Alert("이미 존재하는 메뉴입니다.", "/menu/add", input));
+			return "common/alert";
 		}
 	}
 	
