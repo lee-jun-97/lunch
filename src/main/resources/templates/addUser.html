@@ -6,14 +6,15 @@
 	<link rel="stylesheet" type="text/css" data-th-href="@{/css/style.css}" />
 </head>
 <body>
-	<h1 align="center">점심 메뉴 후보 추가</h1>
+	<h1 align="center">구독 서비스 신청</h1>
 	<h2 align="center" data-th-text="${date}"></h2>
 	<table class="m-mt30" border="1">
 		<tbody align="center">
 			<tr>
 			<div align="center">
-				<form th:action="@{/menu/add/save}" th:method="POST">
-					<input type="text" id="input" name="input" placeholder="메뉴 이름">
+				<form th:action="@{/user/add}" th:method="POST">
+					<input type="text" id="email" name="email" placeholder="이메일 주소">
+					<input type="text" id="name" name="name" placeholder="이름">
 					<th colspan="4" height="30px">
 					<button>저장</button>
 					<a data-th-href="@{/}"><button>홈으로</button></a>

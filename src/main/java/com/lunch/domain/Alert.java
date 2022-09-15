@@ -13,6 +13,6 @@ public class Alert {
 	
 	public String message;
 	public String redirectUrl;
-	public String menu; 
+	public String input; 
 
 }
