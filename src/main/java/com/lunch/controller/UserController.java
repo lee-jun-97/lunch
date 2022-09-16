@@ -34,18 +34,12 @@ public class UserController {
 	@PostMapping("/user/add")
 	public String userAdd(String email, String name, Model model) {
 		
-		User user = new User();
 		
 		Date date = new Date();
 		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
-		user.setEmail(email);
-		user.setName(name);
-		user.setJoin_date(df.format(date));
-		user.setUse_YN("Y");
-		
-		userService.userAdd(user);
+		userService.userAdd(new User(email, name, df.format(date), "Y"));
 		
 		model.addAttribute("params", new Alert("저장되었습니다.", "/user", null));
 		

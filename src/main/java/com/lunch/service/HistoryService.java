@@ -21,12 +21,7 @@ public class HistoryService {
 		List<History> list = new ArrayList<>();
 		
 		for(Menu i : menu) {
-			History history = new History();
-			
-			history.setMenu(i.getMenu());
-			history.setDate(date);
-
-			list.add(history);
+			list.add(new History(i.menu, date));
 		}
 		
 		historyRepo.saveAll(list);

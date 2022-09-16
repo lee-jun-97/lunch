@@ -26,8 +26,6 @@ public class MenuController {
 	private LunchService lunchService;
 	@Autowired
 	private HistoryService historyService;
-	@Autowired
-	private Menu menu;
 	
 	@GetMapping("/menu")
 	public String getMenu(Model model) {
@@ -60,9 +58,9 @@ public class MenuController {
 	
 	@PostMapping("/menu/add/save")
 	public String saveMenu(@RequestParam String input, Model model) {
-		menu.setMenu(input);
+		
 		if(lunchService.validation(input)) {
-			lunchService.saveMenu(this.menu);
+			lunchService.saveMenu(new Menu(input));
 			return "redirect:/menu/add";
 		} else {
 			model.addAttribute("params", new Alert("이미 존재하는 메뉴입니다.", "/menu/add", input));

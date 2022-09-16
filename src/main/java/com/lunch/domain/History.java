@@ -6,10 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter @Getter
 @Entity
 @Table(name="lunch_history")
 public class History {
@@ -20,8 +16,13 @@ public class History {
 	public String menu;
 	public String date;
 	
-	public String toString() {
-		return "History : [ "+ date + " : " + menu + " ]";
+	public History() {
+		
 	}
-
+	
+	public History(String menu, String date) {
+		this.menu = menu;
+		this.date = date;
+	}
+	
 }
