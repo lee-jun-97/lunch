@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.lunch.domain.Alert;
 import com.lunch.domain.Menu;
 import com.lunch.service.HistoryService;
-import com.lunch.service.LunchService;
+import com.lunch.service.MenuService;
 
 @Controller
 public class MenuController {
@@ -23,7 +23,7 @@ public class MenuController {
 //	private static final Logger logger = LoggerFactory.getLogger(LunchController.class);
 	
 	@Autowired
-	private LunchService lunchService;
+	private MenuService menuService;
 	@Autowired
 	private HistoryService historyService;
 	
@@ -35,7 +35,7 @@ public class MenuController {
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-		lunchList = lunchService.selectLunch();
+		lunchList = menuService.selectLunch();
 		
 		historyService.historyInsert(lunchList, df.format(date));
 		
@@ -59,8 +59,8 @@ public class MenuController {
 	@PostMapping("/menu/add/save")
 	public String saveMenu(@RequestParam String input, Model model) {
 		
-		if(lunchService.validation(input)) {
-			lunchService.saveMenu(new Menu(input));
+		if(menuService.validation(input)) {
+			menuService.saveMenu(new Menu(input));
 			return "redirect:/menu/add";
 		} else {
 			model.addAttribute("params", new Alert("이미 존재하는 메뉴입니다.", "/menu/add", input));

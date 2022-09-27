@@ -11,7 +11,7 @@ import com.lunch.domain.Menu;
 import com.lunch.repository.MenuRepository;
 
 @Service
-public class LunchService {
+public class MenuService {
 	
 	@Autowired
 	private MenuRepository menuRepo;
