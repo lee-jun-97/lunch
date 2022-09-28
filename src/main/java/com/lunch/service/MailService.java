@@ -2,16 +2,17 @@ package com.lunch.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
-import javax.mail.PasswordAuthentication;
+import javax.mail.Message;
 import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.lunch.domain.Menu;
@@ -22,46 +23,57 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MailService {
 	
-	private JavaMailSender mSender;
+	private Environment env;
 	private MenuService menuService;
-//	private Environment env;
-	// 테스트만 진행 후 Spring Batch 적용 예정
 	
+	// 테스트만 진행 후 Spring Batch 적용 예정
 	@PostConstruct
-	public void mailSend() {
-		
-		Properties properties = System.getProperties();
-		Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-			@SuppressWarnings("unused")
-			protected PasswordAuthentication getPasswordAuthenctication() {
-				return new PasswordAuthentication("email 주소", "해당 email 패스워드");
-			}
-		});
+	public void mailSend() throws Exception {
 		
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
-//		List<Menu> menu = menuService.selectLunch();
+		Properties props = System.getProperties();
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.stmp.protocol", 25);
+		props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.auth", "true");
 		
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+		Session session = Session.getDefaultInstance(props);
+		
+		MimeMessage msg = new MimeMessage(session);
+		
+		Transport transport = session.getTransport();
+		
+		try {
 			
-			@SuppressWarnings("static-access")
-			@Override
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-				//		message.setFrom(env.getProperties().getProperty("spring.mail.username"));
-				//		message.setTo("yuog12@naver.com");
-				helper.setFrom("yuog12@gmail.com");
-				helper.setTo("yuog12@naver.com");
-				helper.setSubject(df.format(date) + " 점심 메뉴");
-				for(Menu i : menuService.selectLunch()) {
-					helper.setText(i.menu);
-				}
-				
-			}
-		};
+			msg.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "TEST"));
+			msg.setRecipient(Message.RecipientType.TO, new InternetAddress("svsva123@gmail.com"));
+			msg.setSubject(df.format(date) + " 점심 메뉴");
+			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
+			
+			transport.connect(env.getProperty("spring.mail.host"), env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password"));
+			transport.sendMessage(msg, msg.getAllRecipients());
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+				transport.close();
+		}
 		
-		mSender.send(preparator);
+	}
+	
+	public String makeBody(int seq, List<Menu> list) {
+		
+		String body = "";
+
+		for(Menu i : list) {
+			body += "<p>";
+			body += (seq++ + ". " + i.menu);
+			body += "</p>";
+			body += "\n";
+		}
+		
+		return body;
 	}
 
 }
