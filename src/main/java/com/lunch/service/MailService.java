@@ -48,7 +48,7 @@ public class MailService {
 		try {
 			
 			msg.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "TEST"));
-			msg.setRecipient(Message.RecipientType.TO, new InternetAddress("svsva123@gmail.com"));
+			msg.setRecipient(Message.RecipientType.TO, new InternetAddress("***@***"));
 			msg.setSubject(df.format(date) + " 점심 메뉴");
 			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
 			
