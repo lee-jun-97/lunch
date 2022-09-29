@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.annotation.PostConstruct;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -13,9 +12,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.lunch.domain.Menu;
+import com.lunch.domain.User;
+import com.lunch.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -25,9 +27,9 @@ public class MailService {
 	
 	private Environment env;
 	private MenuService menuService;
+	private UserRepository userRepo;
 	
-	// 테스트만 진행 후 Spring Batch 적용 예정
-	@PostConstruct
+	@Scheduled( cron = "* 0 9 ? ? 1-5")
 	public void mailSend() throws Exception {
 		
 		Date date = new Date();
@@ -48,12 +50,19 @@ public class MailService {
 		try {
 			
 			msg.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "TEST"));
-			msg.setRecipient(Message.RecipientType.TO, new InternetAddress("***@***"));
-			msg.setSubject(df.format(date) + " 점심 메뉴");
-			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
-			
+//			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
+			msg.setContent("TEST", "text/html;charset=euc-kr");
+			msg.setSubject(df.format(date) + " TEST");
 			transport.connect(env.getProperty("spring.mail.host"), env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password"));
+			
+			List<User> list = userRepo.findAll();
+			InternetAddress[] toArr = new InternetAddress[list.size()];
+			for(int i=0; i<list.size(); i++) {
+				toArr[i] = new InternetAddress(list.get(i).email);
+			}
+			msg.setRecipients(Message.RecipientType.TO, toArr);
 			transport.sendMessage(msg, msg.getAllRecipients());
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
