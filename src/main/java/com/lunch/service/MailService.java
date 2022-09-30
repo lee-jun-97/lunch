@@ -11,6 +11,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -25,11 +27,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class MailService {
 	
+	private static final Logger logger = LoggerFactory.getLogger(MailService.class);
+	
 	private Environment env;
-	private MenuService menuService;
+//	private MenuService menuService;
 	private UserRepository userRepo;
 	
-	@Scheduled( cron = "* 0 9 ? ? 1-5")
+	@Scheduled(cron = "0 0 9 * * 1-5")
 	public void mailSend() throws Exception {
 		
 		Date date = new Date();
@@ -61,12 +65,17 @@ public class MailService {
 				toArr[i] = new InternetAddress(list.get(i).email);
 			}
 			msg.setRecipients(Message.RecipientType.TO, toArr);
+			
+			logger.info("### Message Send Start ....");
+			
 			transport.sendMessage(msg, msg.getAllRecipients());
 			
 		} catch(Exception e) {
-			e.printStackTrace();
+			logger.info("### Message Send Failed ....");
+			logger.warn(e.getMessage());
 		} finally {
 				transport.close();
+				logger.info("### Message Send Success ....");
 		}
 		
 	}
