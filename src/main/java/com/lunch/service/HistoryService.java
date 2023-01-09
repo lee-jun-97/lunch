@@ -18,7 +18,7 @@ public class HistoryService {
 	
 	public void historyInsert(List<Menu> menu, String date) {
 		
-		List<History> list = new ArrayList<>();
+		List<History> list = new ArrayList<History>();
 		
 		for(Menu i : menu) {
 			list.add(new History(i.menu, date));

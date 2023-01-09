@@ -30,7 +30,7 @@ public class MenuController {
 	@GetMapping("/menu")
 	public String getMenu(Model model) {
 		
-		List<Menu> lunchList = new ArrayList<> ();
+		List<Menu> lunchList = new ArrayList<Menu>();
 
 		Date date = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

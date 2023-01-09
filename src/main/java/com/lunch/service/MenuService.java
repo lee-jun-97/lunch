@@ -24,7 +24,7 @@ public class MenuService {
 		
 		Collections.shuffle(list);
 		
-		List<Menu> result = new ArrayList<>();
+		List<Menu> result = new ArrayList<Menu>();
 		for(int i=0; i<3; i++) {
 			result.add(list.get(i));
 		}
