@@ -1,7 +1,5 @@
 package com.lunch.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.lunch.domain.Menu;
 import com.lunch.domain.User;
 import com.lunch.repository.UserRepository;
+import com.lunch.util.DateUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -33,11 +32,9 @@ public class MailService {
 //	private MenuService menuService;
 	private UserRepository userRepo;
 	
+	// 매주 월~금 오전 9시에 메일 발송
 	@Scheduled(cron = "0 0 9 * * 1-5")
 	public void mailSend() throws Exception {
-		
-		Date date = new Date();
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Properties props = System.getProperties();
 		props.put("mail.transport.protocol", "smtp");
@@ -56,7 +53,7 @@ public class MailService {
 			msg.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "TEST"));
 //			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
 			msg.setContent("TEST", "text/html;charset=euc-kr");
-			msg.setSubject(df.format(date) + " TEST");
+			msg.setSubject(DateUtil.createDate() + " TEST");
 			transport.connect(env.getProperty("spring.mail.host"), env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password"));
 			
 			List<User> list = userRepo.findAll();

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lunch.domain.Menu;
+import com.lunch.repository.HistoryRepository;
 import com.lunch.repository.MenuRepository;
+import com.lunch.util.DateUtil;
 
 @Service
 public class MenuService {
@@ -16,7 +18,9 @@ public class MenuService {
 	@Autowired
 	private MenuRepository menuRepo;
 	
-//	private static final Logger log = LoggerFactory.getLogger(LunchService.class);
+	@Autowired
+	private HistoryRepository historyRepo;
+	
 	
 	public List<Menu> selectLunch() {
 		
@@ -29,6 +33,8 @@ public class MenuService {
 			result.add(list.get(i));
 		}
 		
+		saveHistory(result, DateUtil.createDate());
+		
 		return result;
 	}
 
@@ -37,17 +43,11 @@ public class MenuService {
 		menuRepo.save(menu);
 	}
 	
-	public boolean validation(String input) {
-		
-		boolean check;
-		
-		if(menuRepo.findByMenu(input).isEmpty()) {
-			check = true;
-		} else {
-			check = false;
-		}
-		
-		return check;
+
+	
+	private void saveHistory(List<Menu> list, String date) {
+		historyRepo.saveAll(list, date);
 	}
+	
 
 }
