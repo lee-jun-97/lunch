@@ -28,7 +28,7 @@ public class UserController {
 		
 		model.addAttribute("date", df.format(date));
 		
-		return "addUser";
+		return "add/addUser";
 	}
 	
 	@PostMapping("/user/add")

@@ -10,13 +10,15 @@ public class Menu {
 
 	@Id
 	public String menu;
+	public String nation;
 	
 	public Menu() {
 		
 	}
 	
-	public Menu(String menu) {
+	public Menu(String menu, String nation) {
 		this.menu = menu;
+		this.nation = nation;
 	}
 	
 }
