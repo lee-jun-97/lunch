@@ -12,14 +12,15 @@
 	<h1 align="center">오늘의 점심 메뉴</h1>
 	<h2 align="center" data-th-text="${date}"></h2>
 	<table class="m-mt30" border="1">
-		<thead>
+		<thead >
 			<tr align="center">
-				<th>메뉴</th>
+				<th colspan="4">메뉴</th>
 			</tr>
 		</thead>
 		<tbody align="center">
 			<tr data-th-each="vo : ${menu}" data-th-if="${menu.size() > 0}">
 				<td width="200px" data-th-text="${vo.menu}"></td>
+				<td width="200px" data-th-text="${vo.nation}"></td>
 			</tr>
 			<tr>
 				<th colspan="4" height="30px">

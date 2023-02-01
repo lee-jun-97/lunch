@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.lunch.domain.Menu;
 import com.lunch.repository.HistoryRepository;
 import com.lunch.repository.MenuRepository;
-import com.lunch.util.DateUtil;
 
 @Service
 public class MenuService {
@@ -22,8 +21,28 @@ public class MenuService {
 	private HistoryRepository historyRepo;
 	
 	
-	public List<Menu> selectLunch() {
+	public List<Menu> selectLunch(String nation) {
 		
+		List<Menu> list = new ArrayList<Menu>();
+		
+		if(nation.equals("empty")) {
+			list = menuRepo.findAll();
+		} else {
+			list = menuRepo.findByNation(nation);
+		}
+		
+		Collections.shuffle(list);
+		
+		List<Menu> result = new ArrayList<Menu>();
+		for(int i=0; i<(list.size()>3?3:list.size()); i++) {
+			result.add(list.get(i));
+		}
+		
+		return result;
+	}
+	
+	public List<Menu> selectLunch() {
+			
 		List<Menu> list = menuRepo.findAll();
 		
 		Collections.shuffle(list);
@@ -33,7 +52,6 @@ public class MenuService {
 			result.add(list.get(i));
 		}
 		
-		saveHistory(result, DateUtil.createDate());
 		
 		return result;
 	}
@@ -43,11 +61,4 @@ public class MenuService {
 		menuRepo.save(menu);
 	}
 	
-
-	
-	private void saveHistory(List<Menu> list, String date) {
-		historyRepo.saveAll(list, date);
-	}
-	
-
 }

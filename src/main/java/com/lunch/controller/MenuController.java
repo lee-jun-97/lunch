@@ -1,5 +1,7 @@
 package com.lunch.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,7 @@ import com.lunch.util.DateUtil;
 @Controller
 public class MenuController {
 	
-//	private static final Logger logger = LoggerFactory.getLogger(LunchController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 	
 	@Autowired
 	private MenuService menuService;
@@ -25,9 +27,9 @@ public class MenuController {
 	private MenuRepository menuRepo;
 	
 	@GetMapping("/menu")
-	private String getMenu(Model model) {
+	private String getMenu(@RequestParam String nation, Model model) {
 		
-		model.addAttribute("menu", menuService.selectLunch());
+		model.addAttribute("menu", menuService.selectLunch(nation));
 		model.addAttribute("date", DateUtil.createDate());
 
 		return "menu";
@@ -38,14 +40,14 @@ public class MenuController {
 		
 		model.addAttribute("date", DateUtil.createDate());
 		
-		return "addMenu";
+		return "add/addMenu";
 	}
 	
 	@PostMapping("/menu/add/save")
-	private String saveMenu(@RequestParam String input, Model model) {
+	private String saveMenu(@RequestParam String input, String nation, Model model) {
 		
 		if(validation(input)) {
-			menuService.saveMenu(new Menu(input));
+			menuService.saveMenu(new Menu(input, nation));
 			return "redirect:/menu/add";
 		} else {
 			model.addAttribute("params", new Alert("이미 존재하는 메뉴입니다.", "/menu/add", input));
