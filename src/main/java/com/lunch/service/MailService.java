@@ -29,10 +29,10 @@ public class MailService {
 	private static final Logger logger = LoggerFactory.getLogger(MailService.class);
 	
 	private Environment env;
-//	private MenuService menuService;
 	private UserRepository userRepo;
+	private MenuService menuService;
 	
-	// 매주 월~금 오전 9시에 메일 발송
+	// 매주 월~금 오전 9시 실행
 	@Scheduled(cron = "0 0 9 * * 1-5")
 	public void mailSend() throws Exception {
 		
@@ -51,7 +51,7 @@ public class MailService {
 		try {
 			
 			msg.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "TEST"));
-//			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
+			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
 			msg.setContent("TEST", "text/html;charset=euc-kr");
 			msg.setSubject(DateUtil.createDate() + " TEST");
 			transport.connect(env.getProperty("spring.mail.host"), env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password"));
@@ -63,16 +63,12 @@ public class MailService {
 			}
 			msg.setRecipients(Message.RecipientType.TO, toArr);
 			
-			logger.info("### Message Send Start ....");
-			
 			transport.sendMessage(msg, msg.getAllRecipients());
 			
 		} catch(Exception e) {
-			logger.info("### Message Send Failed ....");
 			logger.warn(e.getMessage());
 		} finally {
 				transport.close();
-				logger.info("### Message Send Success ....");
 		}
 		
 	}
