@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<div th:fragment="sidebar" class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">
+        	<a data-th-href="@{/}">zun's Study Web Page</a>
+    	</div>
+        <div class="list-group list-group-flush">
+            <a data-th-href="@{/menu}" class="list-group-item list-group-item-action list-group-item-light p-3">Select Menu</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Shortcuts</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Overview</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Events</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Profile</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">Status</a>
+        </div>
+        <div class="md-5 text-center fs-6">
+	      &copy; 2023 zun's Study WebPage
+	    </div>
+        <!--<div th:fragment="footer-admin">
+	      &copy; zun's Study Admin WebPage
+	    </div>-->
+    </div>
+</html>

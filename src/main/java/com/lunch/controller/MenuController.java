@@ -27,12 +27,12 @@ public class MenuController {
 	private MenuRepository menuRepo;
 	
 	@GetMapping("/menu")
-	private String getMenu(@RequestParam String nation, Model model) {
+	private String getMenu() {
 		
-		model.addAttribute("menu", menuService.selectLunch(nation));
-		model.addAttribute("date", DateUtil.createDate());
+//		model.addAttribute("menu", menuService.selectLunch(nation));
+//		model.addAttribute("date", DateUtil.createDate());
 
-		return "menu";
+		return "menu/menu";
 	}
 	
 	@GetMapping("/menu/add")
