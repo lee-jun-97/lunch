@@ -23,6 +23,10 @@ public class MenuService {
 	
 	public List<Menu> selectLunch(String nation) {
 		
+		if(nation == null) {
+			return new ArrayList<Menu>();
+		}
+		
 		List<Menu> list = new ArrayList<Menu>();
 		
 		if(nation.equals("empty")) {

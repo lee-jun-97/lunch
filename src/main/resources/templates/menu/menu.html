@@ -19,6 +19,43 @@
 		<th:block th:replace="fragments/sidebar :: sidebar"></th:block>
 		<div id="page-content-wrapper">
 			<th:block th:replace="fragments/header :: header"></th:block>
+			<div class="container-fluid" align="center">
+				<form th:action="@{/menu}" th:method="GET">
+					<select class="200px" name="nation">
+						<option th:text="선택"></option>
+						<option th:value="한식" th:text="한식"></option>
+						<option th:value="중식" th:text="중식"></option>
+						<option th:value="일식" th:text="일식"></option>
+						<option th:value="양식" th:text="양식"></option>
+					</select>
+					<button>메뉴 선정</button>
+				</form>
+			</div>
+			<div data-th-if="${menu.size() > 0}" align="center" class="card-body">
+				<h1 class="h1">
+					<p th:text="${date}"></p><p> 추천 메뉴</p>
+				</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th align="center">
+								<tr>
+									메뉴
+								</tr>
+								<tr>
+									종류
+								</tr>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="vo : ${menu}"  align="center">
+							<td th:text="${vo.menu}"></td>
+							<td th:text="${vo.nation}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<!-- Bootstrap core JS-->
