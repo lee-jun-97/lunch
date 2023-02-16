@@ -35,6 +35,15 @@ public class MenuController {
 		return "menu/menu";
 	}
 	
+	@GetMapping("/menu/all")
+	private String getAllMenu(Model model) {
+		
+		model.addAttribute("menu", menuService.selectLunch("all"));
+		model.addAttribute("date", DateUtil.createDate());
+
+		return "menu/allmenu";
+	}
+	
 	@GetMapping("/menu/add")
 	private String addMenu(Model model) {
 		

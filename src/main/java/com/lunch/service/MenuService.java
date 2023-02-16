@@ -31,6 +31,14 @@ public class MenuService {
 		
 		if(nation.equals("empty")) {
 			list = menuRepo.findAll();
+		} else if(nation.equals("all")) {
+			list = menuRepo.findAll();
+			List<Menu> result = new ArrayList<Menu>();
+			for(int i=0; i<list.size(); i++) {
+				result.add(list.get(i));
+			}
+			
+			return result;
 		} else {
 			list = menuRepo.findByNation(nation);
 		}
