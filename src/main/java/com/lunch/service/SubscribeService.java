@@ -16,19 +16,43 @@ public class SubscribeService {
 		userRepo.save(user);
 	}
 	
-	public boolean findByEmail(String email) {
-		if(userRepo.findByEmail(email) == null) {
+	public boolean isExist(String email, String name) {
+		
+		User user = userRepo.findByEmail(email);
+		
+		if(user == null) {
 			return false;
-		} else {
-			return true;
 		}
+		
+		// 존재한다면 취소된 이메일인가 ?
+		if(user.use_YN.equals("N")) {
+			return true;
+		} else 
+			return false;
 	}
 	
-	public boolean findByName(String name) {
-		if(userRepo.findByName(name) == null) {
-			return false;
+	public void updateUser(String email, String dead_date, String use_YN) {
+		userRepo.updateUser(email, dead_date, use_YN);
+	}
+	
+	public void updateUser(String email, String join_date, String dead_date, String use_YN) {
+		userRepo.updateUser(email, join_date, dead_date, use_YN);
+	}
+	
+	public boolean isRegist(String str) {
+		
+		User user ;
+		
+		if(str.contains("@")) {
+			user = userRepo.findByEmail(str);
 		} else {
+			user = userRepo.findByName(str);
+		}
+		
+		if(user != null && user.use_YN.equals("Y")) {
 			return true;
 		}
+		
+		return false;
 	}
 }

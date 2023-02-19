@@ -26,7 +26,7 @@ public class MenuController {
 	@Autowired 
 	private MenuRepository menuRepo;
 	
-	@GetMapping("/menu")
+	@GetMapping("/menu/select")
 	private String getMenu(Model model, String nation) {
 		
 		model.addAttribute("menu", menuService.selectLunch(nation));
