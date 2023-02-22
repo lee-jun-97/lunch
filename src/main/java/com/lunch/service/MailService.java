@@ -20,17 +20,24 @@ import com.lunch.domain.User;
 import com.lunch.repository.UserRepository;
 import com.lunch.util.DateUtil;
 
-import lombok.AllArgsConstructor;
-
 @Service
-@AllArgsConstructor
 public class MailService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MailService.class);
-	
+
 	private Environment env;
 	private UserRepository userRepo;
 	private MenuService menuService;
+	private HistoryService historyService;
+	private DateUtil dateUtil;
+	
+	public MailService(Environment env, UserRepository userRepo, MenuService menuService, HistoryService historyService, DateUtil dateUtil) {
+		this.env = env;
+		this.userRepo = userRepo;
+		this.menuService = menuService;
+		this.historyService = historyService;
+		this.dateUtil = dateUtil;
+	}
 	
 	// 매주 월~금 오전 9시 실행
 	@Scheduled(cron = "0 0 9 * * 1-5")
@@ -53,7 +60,7 @@ public class MailService {
 			msg.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "TEST"));
 			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
 			msg.setContent("TEST", "text/html;charset=euc-kr");
-			msg.setSubject(DateUtil.createDate() + " TEST");
+			msg.setSubject(dateUtil.createDate() + " TEST");
 			transport.connect(env.getProperty("spring.mail.host"), env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password"));
 			
 			List<User> list = userRepo.findAll();

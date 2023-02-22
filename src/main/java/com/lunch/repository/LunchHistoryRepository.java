@@ -3,8 +3,8 @@ package com.lunch.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.lunch.domain.History;
+import com.lunch.domain.LunchHistory;
 
 @Repository
-public interface HistoryRepository extends JpaRepository<History, Integer>{
+public interface LunchHistoryRepository extends JpaRepository<LunchHistory, Integer>{
 }

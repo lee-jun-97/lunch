@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lunch.domain.Menu;
-import com.lunch.repository.HistoryRepository;
 import com.lunch.repository.MenuRepository;
 
 @Service
 public class MenuService {
-	
-	@Autowired
+
 	private MenuRepository menuRepo;
+	private HistoryService historyService;
 	
-	@Autowired
-	private HistoryRepository historyRepo;
-	
+	public MenuService(MenuRepository menuRepo, HistoryService historyService) {
+		this.menuRepo = menuRepo;
+		this.historyService = historyService;
+	}
 	
 	public List<Menu> selectLunch(String nation) {
 		
@@ -28,33 +27,31 @@ public class MenuService {
 		}
 		
 		List<Menu> list = new ArrayList<Menu>();
-		
-		if(nation.equals("empty")) {
+		List<Menu> result = new ArrayList<Menu>();
+
+		if(nation.equals("all")) {
 			list = menuRepo.findAll();
-		} else if(nation.equals("all")) {
-			list = menuRepo.findAll();
-			List<Menu> result = new ArrayList<Menu>();
-			for(int i=0; i<list.size(); i++) {
-				result.add(list.get(i));
-			}
-			
-			return result;
 		} else {
 			list = menuRepo.findByNation(nation);
 		}
 		
+		if(list.size() == 0) {
+			return new ArrayList<Menu>();
+		}
+		
 		Collections.shuffle(list);
 		
-		List<Menu> result = new ArrayList<Menu>();
 		for(int i=0; i<(list.size()>3?3:list.size()); i++) {
 			result.add(list.get(i));
 		}
+		
+		historyService.lunchHistoryInsert(result);
 		
 		return result;
 	}
 	
 	public List<Menu> selectLunch() {
-			
+			 
 		List<Menu> list = menuRepo.findAll();
 		
 		Collections.shuffle(list);
@@ -71,6 +68,17 @@ public class MenuService {
 	
 	public void saveMenu(Menu menu) {
 		menuRepo.save(menu);
+	}
+	
+	public boolean validation(String input) {
+		
+		boolean check = false;
+		
+		if(menuRepo.findByMenu(input).isEmpty()) {
+			check = true;
+		}
+		
+		return check;
 	}
 	
 }

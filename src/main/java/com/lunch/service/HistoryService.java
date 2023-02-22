@@ -1,30 +1,61 @@
 package com.lunch.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lunch.domain.History;
+import com.lunch.domain.LunchHistory;
 import com.lunch.domain.Menu;
-import com.lunch.repository.HistoryRepository;
+import com.lunch.repository.LunchHistoryRepository;
+import com.lunch.repository.MailHistoryRepository;
+import com.lunch.util.DateUtil;
 
 @Service
 public class HistoryService {
 	
-	@Autowired
-	private HistoryRepository historyRepo;
+	private LunchHistoryRepository lunchHistoryRepo;
+	private MailHistoryRepository mailHistoryRepo;
+	private DateUtil dateUtil;
 	
-	public void historyInsert(List<Menu> menu, String date) {
+	public HistoryService(LunchHistoryRepository lunchHistoryRepo, MailHistoryRepository mailHistoryRepo, DateUtil dateUtil) {
+		this.lunchHistoryRepo = lunchHistoryRepo;
+		this.mailHistoryRepo = mailHistoryRepo;
+		this.dateUtil = dateUtil;
+	}
+	
+//	@Autowired
+//	private LunchHistoryRepository lunchHistoryRepo;
+//	@Autowired
+//	private MailHistoryRepository mailHistoryRepo;
+//	@Autowired
+//	private DateUtil dateUtil;
+	
+	public void lunchHistoryInsert(List<Menu> list) {
 		
-		List<History> list = new ArrayList<History>();
+		LunchHistory lunchHistory = new LunchHistory();
 		
-		for(Menu i : menu) {
-			list.add(new History(i.menu, date));
+		int size = list.size();
+		
+		if(size >= 1) {
+			lunchHistory.setFirst_menu(list.get(0).menu);
 		}
 		
-		historyRepo.saveAll(list);
+		if(size >= 2) {
+			lunchHistory.setSecond_menu(list.get(1).menu);
+		}
+		
+		if(size == 3) {
+			lunchHistory.setThird_menu(list.get(2).menu);
+		}
+		
+		lunchHistory.setSelect_date(dateUtil.createDatetime());
+		
+		lunchHistoryRepo.save(lunchHistory);
+		
+	}
+	
+	public void mailHistoryInsert() {
+		
 	}
 
 }

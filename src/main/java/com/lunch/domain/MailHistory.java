@@ -6,23 +6,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
-@Table(name="lunch_history")
-public class History {
+@Table(name="mail_history")
+public class MailHistory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int seq;
-	public String menu;
-	public String date;
-	
-	public History() {
-		
-	}
-	
-	public History(String menu, String date) {
-		this.menu = menu;
-		this.date = date;
-	}
-	
+	public String email;
+	public String name;
+	public String first_menu;
+	public String second_menu;
+	public String third_menu;
+	public String send_date;
+
 }

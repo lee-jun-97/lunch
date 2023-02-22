@@ -21,9 +21,9 @@
 			<th:block th:replace="fragments/header :: header"></th:block>
 			<br>
 			<div class="container-fluid" align="center">
-				<form th:action="@{/menu}" th:method="GET">
+				<form th:action="@{/menu/select}" th:method="GET">
 					<select class="300px" name="nation">
-						<option th:text="선택"></option>
+						<option th:value="empty"th:text="선택"></option>
 						<option th:value="한식" th:text="한식"></option>
 						<option th:value="중식" th:text="중식"></option>
 						<option th:value="일식" th:text="일식"></option>
