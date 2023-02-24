@@ -24,5 +24,20 @@ public class MailHistory {
 	public String second_menu;
 	public String third_menu;
 	public String send_date;
+	
+	public MailHistory() {
+		
+	}
+	
+	
+	public MailHistory(int seq, String email, String name, String first_menu, String second_menu, String third_menu, String send_date) {
+		this.seq = seq;
+		this.email = email;
+		this.name = name;
+		this.first_menu = first_menu;
+		this.second_menu = second_menu;
+		this.third_menu = third_menu;
+		this.send_date = send_date;
+	}
 
 }

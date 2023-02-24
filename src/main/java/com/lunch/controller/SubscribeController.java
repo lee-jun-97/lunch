@@ -9,16 +9,14 @@ import com.lunch.domain.User;
 import com.lunch.service.SubscribeService;
 import com.lunch.util.DateUtil;
 
+import lombok.AllArgsConstructor;
+
 @Controller
+@AllArgsConstructor
 public class SubscribeController {
 	
 	private SubscribeService subscribeService;
 	private DateUtil dateUtil;
-	
-	public SubscribeController(SubscribeService subscribeService, DateUtil dateUtil) {
-		this.subscribeService = subscribeService;
-		this.dateUtil = dateUtil;
-	}
 	
 	@PostMapping("/subscribe/add")
 	public String subscribeAdd(String email, String name, Model model) {
@@ -28,9 +26,9 @@ public class SubscribeController {
 			model.addAttribute("params", new Alert("다른 이메일이 이미 등록 되어있습니다.", "/subscribe", null));
 		} else {
 			if(subscribeService.isExist(email, name)) {
-				subscribeService.updateUser(email, dateUtil.createDate(), null, "Y");
+				subscribeService.updateUser(email, dateUtil.createDatetime(), null, "Y");
 			} else {
-				subscribeService.userAdd(new User(email, name, dateUtil.createDate(), "Y"));
+				subscribeService.userAdd(new User(email, name, dateUtil.createDatetime(), "Y"));
 			}
 			model.addAttribute("params", new Alert("구독 신청 되었습니다.", "/subscribe", null));
 		}
@@ -39,7 +37,7 @@ public class SubscribeController {
 	
 	@PostMapping("/subscribe/cancel/save")
 	public String subscribeCancel(Model model, String email) {
-		subscribeService.updateUser(email, dateUtil.createDate(), "N");
+		subscribeService.updateUser(email, dateUtil.createDatetime(), "N");
 		
 		model.addAttribute("params", new Alert("구독 취소 되었습니다.", "/", null));
 		

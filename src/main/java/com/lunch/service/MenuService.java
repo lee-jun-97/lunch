@@ -9,16 +9,14 @@ import org.springframework.stereotype.Service;
 import com.lunch.domain.Menu;
 import com.lunch.repository.MenuRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class MenuService {
 
 	private MenuRepository menuRepo;
 	private HistoryService historyService;
-	
-	public MenuService(MenuRepository menuRepo, HistoryService historyService) {
-		this.menuRepo = menuRepo;
-		this.historyService = historyService;
-	}
 	
 	public List<Menu> selectLunch(String nation) {
 		

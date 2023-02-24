@@ -5,30 +5,22 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.lunch.domain.LunchHistory;
+import com.lunch.domain.MailHistory;
 import com.lunch.domain.Menu;
+import com.lunch.domain.User;
 import com.lunch.repository.LunchHistoryRepository;
 import com.lunch.repository.MailHistoryRepository;
 import com.lunch.util.DateUtil;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class HistoryService {
 	
 	private LunchHistoryRepository lunchHistoryRepo;
 	private MailHistoryRepository mailHistoryRepo;
 	private DateUtil dateUtil;
-	
-	public HistoryService(LunchHistoryRepository lunchHistoryRepo, MailHistoryRepository mailHistoryRepo, DateUtil dateUtil) {
-		this.lunchHistoryRepo = lunchHistoryRepo;
-		this.mailHistoryRepo = mailHistoryRepo;
-		this.dateUtil = dateUtil;
-	}
-	
-//	@Autowired
-//	private LunchHistoryRepository lunchHistoryRepo;
-//	@Autowired
-//	private MailHistoryRepository mailHistoryRepo;
-//	@Autowired
-//	private DateUtil dateUtil;
 	
 	public void lunchHistoryInsert(List<Menu> list) {
 		
@@ -54,7 +46,31 @@ public class HistoryService {
 		
 	}
 	
-	public void mailHistoryInsert() {
+	public void mailHistoryInsert(List<User> userList, List<Menu> menuList) {
+		
+		for(User i : userList) {
+			MailHistory mail = new MailHistory();
+			
+			mail.setEmail(i.email);
+			mail.setName(i.name);
+			
+			if(menuList.size() >= 1) {
+				mail.setFirst_menu(menuList.get(0).menu);
+			}
+			
+			if(menuList.size() >= 2) {
+				mail.setSecond_menu(menuList.get(1).menu);
+			}
+			
+			if(menuList.size() == 3) {
+				mail.setThird_menu(menuList.get(2).menu);
+			}
+			
+			mail.setSend_date(dateUtil.createDatetime());
+			
+			mailHistoryRepo.save(mail);
+			
+		}
 		
 	}
 

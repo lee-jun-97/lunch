@@ -15,26 +15,16 @@ import com.lunch.domain.Menu;
 import com.lunch.service.MenuService;
 import com.lunch.util.DateUtil;
 
+import lombok.AllArgsConstructor;
+
 @Controller
+@AllArgsConstructor
 public class MenuController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
-	
+
 	private MenuService menuService;
 	private DateUtil dateUtil;
-	
-	
-	public MenuController(MenuService menuService, DateUtil dateUtil) {
-		this.menuService = menuService;
-		this.dateUtil = dateUtil;
-	}
-
-//	@Autowired
-//	private MenuService menuService;
-//	@Autowired
-//	private MenuRepository menuRepo;
-//	@Autowired
-//	private DateUtil dateUtil;
 	
 	@GetMapping("/menu/select")
 	private String getMenu(Model model, String nation) {

@@ -1,7 +1,5 @@
 package com.lunch.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -27,7 +25,7 @@ public class User {
 		this.use_YN = use_YN;
 	}
 	
-	public User(String email, String name, Date join_date, String dead_date, String use_YN) {
+	public User(String email, String name, String join_date, String dead_date, String use_YN) {
 		this.email = email;
 		this.name = name;
 		this.dead_date = dead_date;

@@ -20,7 +20,10 @@ import com.lunch.domain.User;
 import com.lunch.repository.UserRepository;
 import com.lunch.util.DateUtil;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class MailService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MailService.class);
@@ -30,14 +33,6 @@ public class MailService {
 	private MenuService menuService;
 	private HistoryService historyService;
 	private DateUtil dateUtil;
-	
-	public MailService(Environment env, UserRepository userRepo, MenuService menuService, HistoryService historyService, DateUtil dateUtil) {
-		this.env = env;
-		this.userRepo = userRepo;
-		this.menuService = menuService;
-		this.historyService = historyService;
-		this.dateUtil = dateUtil;
-	}
 	
 	// 매주 월~금 오전 9시 실행
 	@Scheduled(cron = "0 0 9 * * 1-5")
@@ -57,21 +52,24 @@ public class MailService {
 		
 		try {
 			
+			List<Menu> menuList = menuService.selectLunch();
+			
 			msg.setFrom(new InternetAddress(env.getProperty("spring.mail.username"), "TEST"));
-			msg.setContent(makeBody(1, menuService.selectLunch()), "text/html;charset=euc-kr");
-			msg.setContent("TEST", "text/html;charset=euc-kr");
-			msg.setSubject(dateUtil.createDate() + " TEST");
+			msg.setContent(makeBody(1, menuList), "text/html;charset=euc-kr");
+			msg.setSubject(dateUtil.createDate() + " 추천 메뉴");
 			transport.connect(env.getProperty("spring.mail.host"), env.getProperty("spring.mail.username"), env.getProperty("spring.mail.password"));
 			
-			List<User> list = userRepo.findAll();
-			InternetAddress[] toArr = new InternetAddress[list.size()];
-			for(int i=0; i<list.size(); i++) {
-				toArr[i] = new InternetAddress(list.get(i).email);
+			List<User> userList = userRepo.findAll();
+			InternetAddress[] toArr = new InternetAddress[userList.size()];
+			for(int i=0; i<userList.size(); i++) {
+				toArr[i] = new InternetAddress(userList.get(i).email);
 			}
+			
 			msg.setRecipients(Message.RecipientType.TO, toArr);
 			
 			transport.sendMessage(msg, msg.getAllRecipients());
 			
+			historyService.mailHistoryInsert(userList, menuList);
 		} catch(Exception e) {
 			logger.warn(e.getMessage());
 		} finally {

@@ -2,21 +2,22 @@ package com.lunch.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.lunch.domain.Menu;
+import com.lunch.service.MailService;
 import com.lunch.util.DateUtil;
 
 @Controller
 public class MainController {
 	
+	@Autowired
 	private DateUtil dateUtil;
-	
-	public MainController(DateUtil dateUtil) {
-		this.dateUtil = dateUtil;
-	}
+	@Autowired
+	private MailService mailService;
 
 	@GetMapping("/")
 	public String home() {
