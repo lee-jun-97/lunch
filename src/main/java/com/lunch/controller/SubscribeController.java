@@ -37,9 +37,13 @@ public class SubscribeController {
 	
 	@PostMapping("/subscribe/cancel/save")
 	public String subscribeCancel(Model model, String email) {
-		subscribeService.updateUser(email, dateUtil.createDatetime(), "N");
 		
-		model.addAttribute("params", new Alert("구독 취소 되었습니다.", "/", null));
+		if(!subscribeService.isRegist(email)) {
+			model.addAttribute("params", new Alert("구독 신청이 되어 있지 않습니다.", "/subscribe/cancel", null));
+		} else {
+			subscribeService.updateUser(email, dateUtil.createDatetime(), "N");
+			model.addAttribute("params", new Alert("구독 취소 되었습니다.", "/", null));
+		}
 		
 		return "common/alert";
 	}
