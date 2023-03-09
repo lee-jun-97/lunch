@@ -1,4 +1,4 @@
-package com.lunch.domain;
+package com.lunch.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

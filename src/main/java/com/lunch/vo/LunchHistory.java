@@ -1,4 +1,4 @@
-package com.lunch.domain;
+package com.lunch.vo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

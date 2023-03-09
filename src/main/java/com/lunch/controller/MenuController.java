@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lunch.domain.Alert;
-import com.lunch.domain.Menu;
 import com.lunch.service.MenuService;
 import com.lunch.util.DateUtil;
+import com.lunch.vo.Alert;
+import com.lunch.vo.Menu;
 
 import lombok.AllArgsConstructor;
 

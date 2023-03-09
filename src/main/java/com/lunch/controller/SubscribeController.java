@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.lunch.domain.Alert;
-import com.lunch.domain.User;
 import com.lunch.service.SubscribeService;
 import com.lunch.util.DateUtil;
+import com.lunch.vo.Alert;
+import com.lunch.vo.User;
 
 import lombok.AllArgsConstructor;
 

@@ -7,17 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.lunch.domain.Menu;
-import com.lunch.service.MailService;
 import com.lunch.util.DateUtil;
+import com.lunch.vo.Menu;
 
 @Controller
 public class MainController {
 	
 	@Autowired
 	private DateUtil dateUtil;
-	@Autowired
-	private MailService mailService;
 
 	@GetMapping("/")
 	public String home() {
